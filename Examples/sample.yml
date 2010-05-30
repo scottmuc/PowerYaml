@@ -1,0 +1,9 @@
+# This is a sample yaml file
+parent: 
+  child:
+    a: a value
+    b: b value
+    c: c value
+  child2: 
+    key4: value 4
+    key5: value 5
