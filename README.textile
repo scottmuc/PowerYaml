@@ -1,6 +1,7 @@
-﻿h2. PowerYaml
+﻿
+h3. PowerYaml
 
-A wrapper around "Yaml.Net":http://sourceforge.net/projects/yamldotnet/) library which is the best .Net Yaml parser I've found so far.
+A wrapper around "Yaml.Net":http://sourceforge.net/projects/yamldotnet/ library which is the best .Net Yaml parser I've found so far.
 
 h3. Sample
 
