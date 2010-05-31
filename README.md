@@ -8,22 +8,24 @@ Sample
 
 *sample.yml*
 
-`parent: 
-  child:
-    a: a value
-    b: b value
-    c: c value
-  child2: 
-    key4: value 4
-    key5: value 5`
+	parent: 
+	  child:
+		a: a value
+		b: b value
+		c: c value
+	  child2: 
+		key4: value 4
+		key5: value 5
 
-`PS C:\dev\PowerYaml> & .\Examples\sample.ps1
-Attempting to call Get-YamlNameValues
+And here's the parsing of the above yaml		
+		
+	PS C:\dev\PowerYaml> & .\Examples\sample.ps1
+	Attempting to call Get-YamlNameValues
 
-Name                           Value
-----                           -----
-a                              a value
-b                              b value
-c                              c value`
+	Name                           Value
+	----                           -----
+	a                              a value
+	b                              b value
+	c                              c value
 
 [Yaml.Net]: http://sourceforge.net/projects/yamldotnet/ "Yaml.Net"
