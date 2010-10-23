@@ -1,15 +1,9 @@
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-$dllImports = @(
-	"Libs\YamlDotNet.Core.dll",
-	"Libs\YamlDotNet.Configuration.dll", 
-	"Libs\YamlDotNet.Converters.dll",
-	"Libs\YamlDotNet.RepresentationModel.dll"
-)
-
-$dllImports | 
-	% { Join-Path -path $scriptDir -ChildPath $_ } |
-	% { [Reflection.Assembly]::LoadFrom($_) }
+function Load-YamlDotNetLibraries([string] $dllPath)
+{
+	gci $dllPath | % { [Reflection.Assembly]::LoadFrom($_.FullName) }
+}
 
 function Get-YamlStream([string] $file)
 {
@@ -69,4 +63,5 @@ function Get-YamlNameValues([string] $file = $(throw "-file is required"), $ypat
     return Convert-YamlMappingNodeToHash $nodes
 }
 
+Load-YamlDotNetLibraries (Join-Path $scriptDir -ChildPath "Libs")
 Export-ModuleMember -Function Get-YamlNameValues

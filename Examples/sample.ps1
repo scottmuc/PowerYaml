@@ -7,6 +7,6 @@ Import-Module $module
 
 Write-Host -Foreground Green Attempting to call Get-YamlNameValues
 
-Get-YamlNameValues -file $yaml -ypath "parent", "child"
+Get-YamlNameValues -file $yaml -ypath parent, child
 
 Remove-Module PowerYaml
