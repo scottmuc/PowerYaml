@@ -35,6 +35,23 @@ function Convert-YamlMappingNodeToHash($node)
     return $hash
 }
 
+function Validate-File([string] $file)
+{
+    $file_exists = Test-Path $file
+    if (-not $file_exists) 
+    {
+        Write-Host "Cannot parse a file that does not exist: $file" -fore red
+        exit
+    }
+    
+    gc $file | % { $file_contents += $_ }    
+    if ($file_contents.Contains("`t")) 
+    {
+        Write-Host Cannot parse YAML text that contains TAB characters -fore red
+        exit
+    }
+}
+
 <# 
  .Synopsis
   Returns a name-value collection of a subset of a Yaml file
@@ -50,6 +67,8 @@ function Convert-YamlMappingNodeToHash($node)
 #>
 function Get-YamlNameValues([string] $file = $(throw "-file is required"), $ypath)
 {
+    Validate-File $file
+    
     $yaml = Get-YamlDocument -file $file
     $nodes = $yaml.RootNode.Children
  
