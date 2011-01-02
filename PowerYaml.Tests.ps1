@@ -1,5 +1,4 @@
 Import-Module .\PowerYaml.psm1
-
 . ..\Pester\Source\Pester.ps1
 
 Describe "PowerYaml" {
@@ -20,8 +19,6 @@ Describe "PowerYaml" {
         $yaml = Get-YamlFromFile -file $yaml_file -ypath parent, child
         $yaml.keys.count.should.be(3)  
     }
-
-
 }
 
 Remove-Module PowerYaml
