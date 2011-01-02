@@ -1,5 +1,3 @@
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-
 function Load-YamlDotNetLibraries([string] $dllPath)
 {
 	gci $dllPath | % { [Reflection.Assembly]::LoadFrom($_.FullName) }
@@ -18,6 +16,16 @@ function Get-YamlStream([string] $file)
 function Get-YamlDocument([string] $file)
 {
     $yamlStream = Get-YamlStream $file
+	$document = $yamlStream.Documents[0]
+    return $document
+}
+
+function Get-YamlDocumentFromString([string] $yamlString)
+{
+	$stringReader = new-object System.IO.StringReader($yamlString)
+	$yamlStream = New-Object YamlDotNet.RepresentationModel.YamlStream
+	$yamlStream.Load([System.IO.TextReader] $stringReader)
+	
 	$document = $yamlStream.Documents[0]
     return $document
 }
@@ -63,24 +71,32 @@ function Validate-File([string] $file)
   File reference to a yaml document
 
  .Parameter ypath
-  A command delimitted list of nodes to traverse
+  A comma delimitted list of nodes to traverse
 #>
-function Get-YamlNameValues([string] $file = $(throw "-file is required"), $ypath)
+function Get-YamlFromFile([string] $file = $(throw "-file is required"), $ypath = "")
 {
     Validate-File $file
     
     $yaml = Get-YamlDocument -file $file
     $nodes = $yaml.RootNode.Children
- 
+
     Foreach($p in $ypath)
     {
         $nodes.Keys |
             Where-Object { $_.Value -eq $p } | 
             % { $nodes = $nodes[$_].Children }    
     }
-	
+
     return Convert-YamlMappingNodeToHash $nodes
 }
 
-Load-YamlDotNetLibraries (Join-Path $scriptDir -ChildPath "Libs")
-Export-ModuleMember -Function Get-YamlNameValues
+function Get-YamlFromString([string] $yaml_string) 
+{
+    $yaml = Get-YamlDocumentFromString $yaml_string
+    $nodes = $yaml.RootNode.Children
+
+    return Convert-YamlMappingNodeToHash $nodes
+}
+
+Load-YamlDotNetLibraries (Join-Path $PSScriptRoot -ChildPath "Libs")
+Export-ModuleMember -Function Get-YamlFromFile, Get-YamlFromString 

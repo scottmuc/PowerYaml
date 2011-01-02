@@ -1,12 +1,6 @@
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$yaml = Resolve-Path sample.yml 
+Import-Module ..\PowerYaml.psm1 
 
-$module = Join-Path -Path $scriptDir -ChildPath ..\PowerYaml.psm1
-$yaml = Join-Path -Path $scriptDir -ChildPath Sample.yml
-
-Import-Module $module
-
-Write-Host -Foreground Green Attempting to call Get-YamlNameValues
-
-Get-YamlNameValues -file $yaml -ypath parent, child
+Get-YamlFromFile -file $yaml -ypath parent, child
 
 Remove-Module PowerYaml
