@@ -34,7 +34,6 @@ function Get-YamlDocumentFromString([string] $yamlString)
 function Convert-YamlSequenceNodeToList($node)
 {
 	$list = @()
-
 	$yamlNodes = $node.Children
 	
 	foreach($yamlNode in $yamlNodes)
@@ -49,7 +48,7 @@ function Explode-Node($node)
 {
 	if ($node.GetType().Name -eq "YamlScalarNode")
 	{
-		return $node.Value
+		return Convert-YamlScalarNodeToValue $node 
 	}
 	elseif ($node.GetType().Name -eq "YamlMappingNode")
 	{
@@ -59,6 +58,11 @@ function Explode-Node($node)
 	{	
 		return Convert-YamlSequenceNodeToList $node
 	}
+}
+
+function Convert-YamlScalarNodeToValue($node)
+{
+    return $node.Value
 }
 
 function Convert-YamlMappingNodeToHash($node)

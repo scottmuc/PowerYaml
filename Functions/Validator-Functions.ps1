@@ -8,10 +8,15 @@ function Validate-File([string] $file)
     }
     
     gc $file | % { $file_contents += $_ }    
-    if ($file_contents.Contains("`t")) 
+    if ((Detect-Tab $file_contents)) 
     {
         Write-Host Cannot parse YAML text that contains TAB characters -fore red
         exit
     }
+}
+
+function Detect-Tab([string] $yaml_string) 
+{
+    return $yaml_string.Contains("`t")
 }
 
