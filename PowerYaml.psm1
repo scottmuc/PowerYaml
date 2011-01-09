@@ -36,7 +36,7 @@ function Get-Yaml([string] $YamlString = "", [string] $YamlFile = "", $ypath = "
             % { $nodes = $nodes.Children[$_] }
     }
 
-    return Convert-YamlMappingNodeToHash $nodes
+    return Explode-Node $nodes
 }
 
 
