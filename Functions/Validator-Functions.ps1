@@ -4,15 +4,17 @@ function Validate-File([string] $file)
     if (-not $file_exists) 
     {
         Write-Host "Cannot parse a file that does not exist: $file" -fore red
-        exit
+        return $false
     }
     
     gc $file | % { $file_contents += $_ }    
     if ((Detect-Tab $file_contents)) 
     {
         Write-Host Cannot parse YAML text that contains TAB characters -fore red
-        exit
+        return $false
     }
+
+    return $true
 }
 
 function Detect-Tab([string] $yaml_string) 

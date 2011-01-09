@@ -20,12 +20,14 @@ function Get-Yaml([string] $YamlString = "", [string] $YamlFile = "", $ypath = "
 
     if ($YamlString -ne "")
     {
+        # TODO add yaml string/document validation
         $yaml = Get-YamlDocumentFromString $YamlString
     } 
     elseif ($YamlFile -ne "")
     {
-        Validate-File $YamlFile
-        $yaml = Get-YamlDocument -file $YamlFile
+        if ((Validate-File $YamlFile)) {
+            $yaml = Get-YamlDocument -file $YamlFile
+        }
     }
 
     $nodes = $yaml.RootNode

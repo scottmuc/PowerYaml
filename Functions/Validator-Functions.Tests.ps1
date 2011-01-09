@@ -15,3 +15,17 @@ Describe "Detect-Tab" {
     }
 
 }
+
+Describe "Validate-File" {
+
+    It "should return false if a file does not exist" {
+        $result = Validate-File "some non existent file"
+        $result.should.be($false)
+    }
+
+    It "should return true for a file that does exist and does not contain a TAB character" {
+        $result = Validate-File (Resolve-Path Examples\sample.yml)
+        $result.should.be($true)
+    }
+
+}

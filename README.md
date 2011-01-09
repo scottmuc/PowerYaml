@@ -19,8 +19,9 @@ Sample
 
 And here's the parsing of the above yaml		
 		
-	PS C:\dev\PowerYaml> & .\Examples\sample.ps1
-	Attempting to call Get-YamlNameValues
+	PS C:\dev\PowerYaml> Import-Module .\PowerYaml.psm1
+    PS C:\dev\PowerYaml> $yaml = Get-Yaml (Resolve-Path .\Examples\sample.yml)
+    PS C:\dev\PowerYaml> $yaml.parent.child
 
 	Name                           Value
 	----                           -----
