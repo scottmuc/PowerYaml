@@ -1,11 +1,17 @@
 Import-Module .\PowerYaml.psm1
 . ..\Pester\Source\Pester.ps1
 
-Describe "PowerYaml" {
+Describe "PowerYaml API (Get-Yaml)" {
 
-    It "Can parse a yaml string containing a hash" {
+    It "Obtains a HashTable given a yaml hash" {
         $yaml = Get-Yaml -YamlString "key: value"
-        $yaml.keys.count.should.be(1)
+        $yaml.GetType().Name.should.be("HashTable")
+    }
+
+    It "Obtains an Object[] given a yaml array" {
+        $yaml = Get-Yaml -YamlString "- test
+- test2"
+        $yaml.GetType().Name.should.be("Object[]")
     }
 
     It "Can parse a yaml file without specifying a ypath" {
