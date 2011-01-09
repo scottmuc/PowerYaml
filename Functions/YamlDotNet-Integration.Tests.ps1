@@ -27,6 +27,19 @@ Describe "Convert-YamlSequenceNodeToList" {
 
 }
 
+Describe "Convert-YamlMappingNodeToHash" {
+
+    It "takes a YamlMappingNode and converts it to a hash" {
+        $yaml = Get-YamlDocumentFromString "---
+key1:   value1
+key2:   value2"
+
+        $result = Convert-YamlMappingNodeToHash $yaml.RootNode
+        $result.keys.count.should.be(2)
+    }
+
+}
+
 Describe "Get-YamlDocumentFromString" {
     
     It "will return a YamlDocument if given proper YAML" {
@@ -35,4 +48,5 @@ Describe "Get-YamlDocumentFromString" {
     }
 
 }
+
 

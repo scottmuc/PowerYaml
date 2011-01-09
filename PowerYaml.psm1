@@ -3,41 +3,42 @@
     
 <# 
  .Synopsis
-  Returns a name-value collection of a subset of a Yaml file
+  Returns an object that can be dot navigated
 
- .Description
-  Single function that returns a hash of the name/value pairs that
-
- .Parameter file
+ .Parameter YamlFile
   File reference to a yaml document
+
+ .Parameter YamlString
+  Yaml string to be converted
 
  .Parameter ypath
   A comma delimitted list of nodes to traverse
 #>
-function Get-YamlFromFile([string] $file = $(throw "-file is required"), $ypath = "")
+function Get-Yaml([string] $YamlString = "", [string] $YamlFile = "", $ypath = "") 
 {
-    Validate-File $file
-    
-    $yaml = Get-YamlDocument -file $file
-    $node = $yaml.RootNode
+    $yaml = $null
 
-    Foreach($p in $ypath)
+    if ($YamlString -ne "")
     {
-        $node.Children.Keys |
-            Where-Object { $_.Value -eq $p } | 
-            % { $node = $node.Children[$_] }
+        $yaml = Get-YamlDocumentFromString $YamlString
+    } 
+    elseif ($YamlFile -ne "")
+    {
+        Validate-File $YamlFile
+        $yaml = Get-YamlDocument -file $YamlFile
     }
 
-    return Convert-YamlMappingNodeToHash $node
-}
-
-function Get-YamlFromString([string] $yaml_string) 
-{
-    $yaml = Get-YamlDocumentFromString $yaml_string
     $nodes = $yaml.RootNode
+    Foreach($p in $ypath)
+    {
+        $nodes.Children.Keys |
+            Where-Object { $_.Value -eq $p } | 
+            % { $nodes = $nodes.Children[$_] }
+    }
 
     return Convert-YamlMappingNodeToHash $nodes
 }
 
+
 Load-YamlDotNetLibraries (Join-Path $PSScriptRoot -ChildPath "Libs")
-Export-ModuleMember -Function Get-YamlFromFile, Get-YamlFromString 
+Export-ModuleMember -Function Get-Yaml 
