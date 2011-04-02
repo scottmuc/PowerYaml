@@ -14,31 +14,23 @@
  .Parameter ypath
   A comma delimitted list of nodes to traverse
 #>
-function Get-Yaml([string] $YamlString = "", [string] $YamlFile = "", $ypath = "") 
+function Get-Yaml([string] $FromString = "", [string] $FromFile = "") 
 {
     $yaml = $null
 
-    if ($YamlString -ne "")
+    if ($FromString -ne "")
     {
         # TODO add yaml string/document validation
-        $yaml = Get-YamlDocumentFromString $YamlString
+        $yaml = Get-YamlDocumentFromString $FromString
     } 
-    elseif ($YamlFile -ne "")
+    elseif ($FromFile -ne "")
     {
-        if ((Validate-File $YamlFile)) {
-            $yaml = Get-YamlDocument -file $YamlFile
+        if ((Validate-File $FromFile)) {
+            $yaml = Get-YamlDocument -file $FromFile
         }
     }
 
-    $nodes = $yaml.RootNode
-    Foreach($p in $ypath)
-    {
-        $nodes.Children.Keys |
-            Where-Object { $_.Value -eq $p } | 
-            % { $nodes = $nodes.Children[$_] }
-    }
-
-    return Explode-Node $nodes
+    return Explode-Node $yaml.RootNode
 }
 
 

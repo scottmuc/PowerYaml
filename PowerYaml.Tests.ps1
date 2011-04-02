@@ -1,31 +1,27 @@
 Import-Module .\PowerYaml.psm1
 . ..\Pester\Pester.ps1
 
-Describe "PowerYaml API (Get-Yaml)" {
+Describe "PoweYaml when parsing strings" {
 
     It "Obtains a HashTable given a yaml hash" {
-        $yaml = Get-Yaml -YamlString "key: value"
+        $yaml = Get-Yaml -FromString "key: value"
         $yaml.GetType().Name.should.be("HashTable")
     }
 
     It "Obtains an Object[] given a yaml array" {
-        $yaml = Get-Yaml -YamlString "- test
+        $yaml = Get-Yaml -FromString "- test
 - test2"
         $yaml.GetType().Name.should.be("Object[]")
     }
+}
 
-    It "Can parse a yaml file without specifying a ypath" {
-        $yaml_file = Resolve-Path Examples\sample.yml
-        $yaml = Get-Yaml -YamlFile $yaml_file
-        $yaml.keys.count.should.be(1)
+Describe "Using Power Yaml to read a file" {
+    Setup -File "sample.yml" "test: value"
+
+    It "Can read the file and get the value" {
+        $yaml = Get-Yaml -FromFile "$TestDrive\sample.yml"
+        $yaml.test.should.be("value")
     }
-
-    It "Can parse a yaml file and navigate to a subsection" {
-        $yaml_file = Resolve-Path Examples\sample.yml
-        $yaml = Get-Yaml -YamlFile $yaml_file -ypath parent, child
-        $yaml.keys.count.should.be(3)  
-    }
-
 }
 
 Remove-Module PowerYaml

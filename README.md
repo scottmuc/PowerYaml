@@ -6,7 +6,7 @@ PowerYaml is a wrapper around [Yaml.Net][] library which is the best .Net Yaml p
 Sample
 ------
 
-*sample.yml*
+Paste the following into a *sample.yml* file
 
 	parent: 
 	  child:
@@ -20,7 +20,7 @@ Sample
 And here's the parsing of the above yaml		
 		
 	PS C:\dev\PowerYaml> Import-Module .\PowerYaml.psm1
-    PS C:\dev\PowerYaml> $yaml = Get-Yaml (Resolve-Path .\Examples\sample.yml)
+    PS C:\dev\PowerYaml> $yaml = Get-Yaml (Resolve-Path .\sample.yml)
     PS C:\dev\PowerYaml> $yaml.parent.child
 
 	Name                           Value

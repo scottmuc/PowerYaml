@@ -13,10 +13,11 @@ Describe "Detect-Tab" {
         $result = Detect-Tab "          "
         $result.should.be($false)
     }
-
 }
 
 Describe "Validate-File" {
+
+    Setup -File "exists.yml"
 
     It "should return false if a file does not exist" {
         $result = Validate-File "some non existent file"
@@ -24,8 +25,7 @@ Describe "Validate-File" {
     }
 
     It "should return true for a file that does exist and does not contain a TAB character" {
-        $result = Validate-File (Resolve-Path Examples\sample.yml)
+        $result = Validate-File "$TestDrive\exists.yml" 
         $result.should.be($true)
     }
-
 }
