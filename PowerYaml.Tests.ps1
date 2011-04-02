@@ -1,5 +1,5 @@
 Import-Module .\PowerYaml.psm1
-. ..\Pester\Source\Pester.ps1
+. ..\Pester\Pester.ps1
 
 Describe "PowerYaml API (Get-Yaml)" {
 
