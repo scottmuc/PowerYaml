@@ -3,7 +3,7 @@ function Validate-File([string] $file)
     $file_exists = Test-Path $file
     if (-not $file_exists) 
     {
-        Write-Host "Cannot parse a file that does not exist: $file"
+        "ERROR: '$file' does not exist" | Write-Host -Fore Red
         return $false
     }
 
@@ -12,7 +12,8 @@ function Validate-File([string] $file)
 
     if ($line_tab_detected -gt 0) 
     {
-        Write-Host TAB detected on line $line_tab_detected there cannot parse YAML
+        "ERROR in '$file'" | Write-Host -Fore Red
+        "TAB detected on line $line_tab_detected" | Write-Host -Fore Red
         return $false
     }
 
@@ -21,12 +22,13 @@ function Validate-File([string] $file)
 
 function Detect-Tab($lines) 
 {
-    for($i = 0; $i -lt $lines.count; $i++) {
-        if ($lines[$i].Contains("`t")) {
+    for($i = 0; $i -lt $lines.count; $i++) 
+    {
+        if ($lines[$i].Contains("`t")) 
+        {
             return ($i + 1) 
         }
     }
 
     return 0
 }
-
