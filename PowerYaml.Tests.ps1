@@ -1,5 +1,4 @@
 Import-Module .\PowerYaml.psm1
-. ..\Pester\Pester.ps1
 
 Describe "PoweYaml when parsing strings" {
 
@@ -9,8 +8,7 @@ Describe "PoweYaml when parsing strings" {
     }
 
     It "Obtains an Object[] given a yaml array" {
-        $yaml = Get-Yaml -FromString "- test
-- test2"
+        $yaml = Get-Yaml -FromString "- test`n- test2"
         $yaml.GetType().Name.should.be("Object[]")
     }
 }

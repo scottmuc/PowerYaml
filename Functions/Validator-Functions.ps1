@@ -4,7 +4,7 @@ function Validate-File([string] $file)
     if (-not $file_exists) 
     {
         "ERROR: '$file' does not exist" | Write-Host -Fore Red
-        return $false
+        return $false 
     }
 
     $lines_in_file = [System.IO.File]::ReadAllLines($file)

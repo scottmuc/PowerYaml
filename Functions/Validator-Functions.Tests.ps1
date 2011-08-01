@@ -1,6 +1,6 @@
 $pwd = Split-Path -Parent $MyInvocation.MyCommand.Path
-. "$pwd\Validator-Functions.ps1"
-. "$pwd\..\Pester\Pester.ps1"
+$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path).Replace(".Tests", "")
+. "$pwd\$sut"
 
 Describe "Detect-Tab" {
 
