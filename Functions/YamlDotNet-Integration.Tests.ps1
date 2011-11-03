@@ -1,5 +1,6 @@
-$pwd = Split-Path -Parent $MyInvocation.MyCommand.Path
-. "$pwd\YamlDotNet-Integration.ps1"
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+. "$here\YamlDotNet-Integration.ps1"
+Load-YamlDotNetLibraries "$here\..\Libs"
 
 Describe "Convert-YamlScalarNodeToValue" {
 

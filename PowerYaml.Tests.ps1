@@ -1,4 +1,5 @@
-Import-Module .\PowerYaml.psm1
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+Import-Module $here\PowerYaml.psm1 -Force
 
 Describe "PoweYaml when parsing strings" {
 

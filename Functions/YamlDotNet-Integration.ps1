@@ -1,6 +1,6 @@
 function Load-YamlDotNetLibraries([string] $dllPath)
 {
-	gci $dllPath | % { [Reflection.Assembly]::LoadFrom($_.FullName) }
+	gci $dllPath | % { [Reflection.Assembly]::LoadFrom($_.FullName) } | Out-Null
 }
 
 function Get-YamlStream([string] $file)
