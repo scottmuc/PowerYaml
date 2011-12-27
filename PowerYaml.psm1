@@ -11,14 +11,10 @@
  .Parameter FromString
   Yaml string to be converted
 #>
-function Get-Yaml([string] $FromString = "", [string] $FromFile = "") 
-{
-    if ($FromString -ne "")
-    {
+function Get-Yaml([string] $FromString = "", [string] $FromFile = "") {
+    if ($FromString -ne "") {
         $yaml = Get-YamlDocumentFromString $FromString
-    } 
-    elseif ($FromFile -ne "")
-    {
+    } elseif ($FromFile -ne "") {
         if ((Validate-File $FromFile)) {
             $yaml = Get-YamlDocument -file $FromFile
         }
