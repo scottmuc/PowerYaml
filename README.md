@@ -20,7 +20,7 @@ Paste the following into a *sample.yml* file
 And here's the parsing of the above yaml		
 		
 	PS C:\dev\PowerYaml> Import-Module .\PowerYaml.psm1
-    PS C:\dev\PowerYaml> $yaml = Get-Yaml (Resolve-Path .\sample.yml)
+    PS C:\dev\PowerYaml> $yaml = Get-Yaml -FromFile (Resolve-Path .\sample.yml)
     PS C:\dev\PowerYaml> $yaml.parent.child
 
 	Name                           Value
