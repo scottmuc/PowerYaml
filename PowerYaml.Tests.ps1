@@ -23,4 +23,12 @@ Describe "Using Power Yaml to read a file" {
     }
 }
 
+Describe "Using Power Yaml to convert integer scalars" {
+
+    It "Obtains an int given an integer value" {
+        $yaml = Get-Yaml -FromString "key: 5"
+        $yaml.key.ToInt().GetType().Name.should.be("Int32")
+    }
+}
+
 Remove-Module PowerYaml

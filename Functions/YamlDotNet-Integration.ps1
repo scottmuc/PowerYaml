@@ -37,7 +37,7 @@ function Explode-Node($node) {
 }
 
 function Convert-YamlScalarNodeToValue($node) {
-    return $node.Value
+    return Add-CastingFunctions($node.Value)
 }
 
 function Convert-YamlMappingNodeToHash($node) {

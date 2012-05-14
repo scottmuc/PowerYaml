@@ -1,4 +1,5 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
+. "$here\Casting.ps1"
 . "$here\YamlDotNet-Integration.ps1"
 Load-YamlDotNetLibraries "$here\..\Libs"
 

@@ -1,3 +1,4 @@
+. $PSScriptRoot\Functions\Casting.ps1
 . $PSScriptRoot\Functions\YamlDotNet-Integration.ps1
 . $PSScriptRoot\Functions\Validator-Functions.ps1
 
