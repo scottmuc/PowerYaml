@@ -1,12 +1,26 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\Casting.ps1"
+. "$here\Shadow-Copy.ps1"
 . "$here\YamlDotNet-Integration.ps1"
-Load-YamlDotNetLibraries "$here\..\Libs"
+
+$libDir = "$here\..\Libs"
+
+Describe "Load-YamlDotNetLibraries" {
+
+    It "loads assemblies in a way that the dll's can be deleted after loading" {
+        Load-YamlDotNetLibraries $libDir
+        $shadowDir = "$($env:Temp)\poweryaml\shadow"
+        Remove-Item $shadowDir -Recurse
+        (Test-Path $shadowDir).should.be($false)
+    }
+
+}
 
 Describe "Convert-YamlScalarNodeToValue" {
 
     It "takes a YamlScalar and converts it to a value type" {
 
+        Load-YamlDotNetLibraries $libDir
         $node = New-Object YamlDotNet.RepresentationModel.YamlScalarNode 5
         $result = Convert-YamlScalarNodeToValue $node
 

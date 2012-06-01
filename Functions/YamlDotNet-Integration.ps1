@@ -1,5 +1,8 @@
 function Load-YamlDotNetLibraries([string] $dllPath) {
-    gci $dllPath | % { [Reflection.Assembly]::LoadFrom($_.FullName) } | Out-Null
+    gci $dllPath | % {
+        $shadow = Shadow-Copy -File $_.FullName
+        [Reflection.Assembly]::LoadFrom($shadow)
+    } | Out-Null
 }
 
 function Get-YamlStream([string] $file) {
@@ -8,7 +11,7 @@ function Get-YamlStream([string] $file) {
 
     $yamlStream.Load([System.IO.TextReader] $streamReader)
     $streamReader.Close()
-    return $yamlStream	
+    return $yamlStream
 }
 
 function Get-YamlDocument([string] $file) {
