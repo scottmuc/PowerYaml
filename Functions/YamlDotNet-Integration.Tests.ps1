@@ -4,23 +4,23 @@ $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\YamlDotNet-Integration.ps1"
 
 $libDir = "$here\..\Libs"
-
 Describe "Load-YamlDotNetLibraries" {
 
-    It "loads assemblies in a way that the dll's can be deleted after loading" {
-        Load-YamlDotNetLibraries $libDir
-        $shadowDir = "$($env:Temp)\poweryaml\shadow"
-        Remove-Item $shadowDir -Recurse
-        (Test-Path $shadowDir).should.be($false)
-    }
+    Setup -Dir "Libs"
+    Copy-Item "$libDir\*.dll" "$TestDrive\Libs"
 
+    It "loads assemblies in a way that the dll's can be deleted after loading" {
+        $testLibDir = "$TestDrive\Libs"
+        Load-YamlDotNetLibraries $testLibDir
+        Remove-Item $testLibDir -Recurse
+        (Test-Path $testLibDir).should.be($false)
+    }
 }
 
+#Note The rest of the tests are dependent on the above test passing :-(
 Describe "Convert-YamlScalarNodeToValue" {
 
     It "takes a YamlScalar and converts it to a value type" {
-
-        Load-YamlDotNetLibraries $libDir
         $node = New-Object YamlDotNet.RepresentationModel.YamlScalarNode 5
         $result = Convert-YamlScalarNodeToValue $node
 

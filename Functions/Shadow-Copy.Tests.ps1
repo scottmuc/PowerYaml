@@ -16,4 +16,11 @@ Describe "Shadow-Copy" {
         $shadow = Shadow-Copy -File "$TestDrive\testfile" -ShadowPath $isolatedShadowPath
         $shadow.should.be("$isolatedShadowPath\testfile")
     }
+
+    It "does not complain if trying to overwrite locked files" {
+        $file = [System.io.File]::Open("$isolatedShadowPath\testfile", 'Open', 'Read', 'None')
+        $shadow = Shadow-Copy -File "$TestDrive\testfile" -ShadowPath $isolatedShadowPath
+        $file.Close()
+        "made it here, therefore no errors".should.be("made it here, therefore no errors")
+    }
 }
