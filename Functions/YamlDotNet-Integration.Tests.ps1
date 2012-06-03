@@ -1,12 +1,26 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 . "$here\Casting.ps1"
+. "$here\Shadow-Copy.ps1"
 . "$here\YamlDotNet-Integration.ps1"
-Load-YamlDotNetLibraries "$here\..\Libs"
 
+$libDir = "$here\..\Libs"
+Describe "Load-YamlDotNetLibraries" {
+
+    Setup -Dir "Libs"
+    Copy-Item "$libDir\*.dll" "$TestDrive\Libs"
+
+    It "loads assemblies in a way that the dll's can be deleted after loading" {
+        $testLibDir = "$TestDrive\Libs"
+        Load-YamlDotNetLibraries $testLibDir
+        Remove-Item $testLibDir -Recurse
+        (Test-Path $testLibDir).should.be($false)
+    }
+}
+
+#Note The rest of the tests are dependent on the above test passing :-(
 Describe "Convert-YamlScalarNodeToValue" {
 
     It "takes a YamlScalar and converts it to a value type" {
-
         $node = New-Object YamlDotNet.RepresentationModel.YamlScalarNode 5
         $result = Convert-YamlScalarNodeToValue $node
 
