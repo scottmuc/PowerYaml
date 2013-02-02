@@ -13,7 +13,7 @@ Describe "Load-YamlDotNetLibraries" {
         $testLibDir = "$TestDrive\Libs"
         Load-YamlDotNetLibraries $testLibDir
         Remove-Item $testLibDir -Recurse
-        (Test-Path $testLibDir).should.be($false)
+        $testLibDir | Should Not Exist
     }
 }
 
@@ -24,7 +24,7 @@ Describe "Convert-YamlScalarNodeToValue" {
         $node = New-Object YamlDotNet.RepresentationModel.YamlScalarNode 5
         $result = Convert-YamlScalarNodeToValue $node
 
-        $result.should.be(5)
+        $result | Should Be 5
     }
 }
 
@@ -33,8 +33,8 @@ Describe "Convert-YamlSequenceNodeToList" {
     It "taks a YamlSequence and converts it to an array" {
         $yaml = Get-YamlDocumentFromString "---`n- single item`n- second item"
 
-        $result = Convert-YamlSequenceNodeToList $yaml.RootNode 
-        $result.count.should.be(2)
+        $result = Convert-YamlSequenceNodeToList $yaml.RootNode
+        $result.count | Should Be 2
     }
 
 }
@@ -45,7 +45,7 @@ Describe "Convert-YamlMappingNodeToHash" {
         $yaml = Get-YamlDocumentFromString "---`nkey1:   value1`nkey2:   value2"
 
         $result = Convert-YamlMappingNodeToHash $yaml.RootNode
-        $result.keys.count.should.be(2)
+        $result.keys.count | Should Be 2
     }
 
 }
@@ -54,7 +54,7 @@ Describe "Get-YamlDocumentFromString" {
 
     It "will return a YamlDocument if given proper YAML" {
         $document = Get-YamlDocumentFromString "---"
-        $document.GetType().Name.should.be("YamlDocument")
+        $document.GetType().Name | Should Be "YamlDocument"
     }
 
 }

@@ -11,12 +11,12 @@ Describe "Detect-Tab" {
         $line_number_tab_is_in = 2
 
         $result = Detect-Tab $lines
-        $result.should.be($line_number_tab_is_in)
+        $result | Should Be $line_number_tab_is_in
     }
 
     It "should return 0 if no TAB character is found in text" {
         $result = Detect-Tab "          "
-        $result.should.be(0)
+        $result | Should Be 0
     }
 }
 
@@ -26,12 +26,12 @@ Describe "Validate-File" {
 
     It "should return false if a file does not exist" {
         $result = Validate-File "some non existent file"
-        $result.should.be($false)
+        $result | Should Be $false
     }
 
     It "should return true for a file that does exist and does not contain a TAB character" {
         $result = Validate-File "$TestDrive\exists.yml" 
-        $result.should.be($true)
+        $result | Should Be $true
     }
 }
 
@@ -44,6 +44,6 @@ Describe "Validating a file with tabs" {
             Write-Host caught error
         }
         $result = Validate-File "$TestDrive\bad.yml"
-        $result.should.be($false)
+        $result | Should Be $false
     }
 }

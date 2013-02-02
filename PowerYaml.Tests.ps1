@@ -5,12 +5,12 @@ Describe "PoweYaml when parsing strings" {
 
     It "Obtains a HashTable given a yaml hash" {
         $yaml = Get-Yaml -FromString "key: value"
-        $yaml.GetType().Name.should.be("HashTable")
+        $yaml.GetType().Name | Should Be "HashTable"
     }
 
     It "Obtains an Object[] given a yaml array" {
         $yaml = Get-Yaml -FromString "- test`n- test2"
-        $yaml.GetType().Name.should.be("Object[]")
+        $yaml.GetType().Name | Should Be "Object[]"
     }
 }
 
@@ -19,7 +19,7 @@ Describe "Using Power Yaml to read a file" {
 
     It "Can read the file and get the value" {
         $yaml = Get-Yaml -FromFile "$TestDrive\sample.yml"
-        $yaml.test.should.be("value")
+        $yaml.test | Should Be "value"
     }
 }
 
@@ -27,7 +27,7 @@ Describe "Using Power Yaml to convert integer scalars" {
 
     It "Obtains an int given an integer value" {
         $yaml = Get-Yaml -FromString "key: 5"
-        $yaml.key.ToInt().GetType().Name.should.be("Int32")
+        $yaml.key.ToInt().GetType().Name | Should Be "Int32"
     }
 }
 
