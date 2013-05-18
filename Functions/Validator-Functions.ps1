@@ -18,7 +18,8 @@ function Validate-File([string] $file) {
 
 function Detect-Tab($lines) {
     for($i = 0; $i -lt $lines.count; $i++) {
-        if ($lines[$i].Contains("`t")) {
+        [string] $line = $lines[$i]
+        if ($line.Contains("`t")) {
             return ($i + 1) 
         }
     }
