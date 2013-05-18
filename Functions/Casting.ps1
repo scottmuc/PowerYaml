@@ -1,6 +1,9 @@
 function Add-CastingFunctions($value) {
     if ($PSVersionTable.PSVersion -ge "3.0") { return $value }
+    return Add-CastingFunctionsForPosh2($value)
+}
 
+function Add-CastingFunctionsForPosh2($value) {
     return Add-Member -InputObject $value -Name ToInt `
            -MemberType ScriptMethod -PassThru -Value `
            { [int] $this } |

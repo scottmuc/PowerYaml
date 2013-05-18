@@ -2,8 +2,10 @@ $pwd = Split-Path -Parent $MyInvocation.MyCommand.Path
 $sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path).Replace(".Tests", "")
 . "$pwd\$sut"
 
+if ($PSVersionTable.PSVersion -ge "3.0") { return }
+
 Describe "when accessing a yaml scalar value of '5'" {
-    $patched = Add-CastingFunctions("5")
+    $patched = Add-CastingFunctionsForPosh2 ("5")
 
     Context "and I do not attempt to cast it" {
         It "returns a string" {
@@ -45,7 +47,7 @@ Describe "when accessing a yaml scalar value of '5'" {
 Describe "when accessing boolean values" {
 
     Context "and I'm attempting to cast the value 'true'" {
-        $patched = Add-CastingFunctions("true")
+        $patched = Add-CastingFunctionsForPosh2("true")
 
         It "return a value that is a boolean" {
             $patched.ToBoolean().GetType().Name | Should Be "Boolean"
@@ -57,7 +59,7 @@ Describe "when accessing boolean values" {
     }
 
     Context "and I'm attempting to cast the value 'false'" {
-        $patched = Add-CastingFunctions("false")
+        $patched = Add-CastingFunctionsForPosh2("false")
 
         It "return a value that is a boolean" {
             $patched.ToBoolean().GetType().Name | Should Be "Boolean"

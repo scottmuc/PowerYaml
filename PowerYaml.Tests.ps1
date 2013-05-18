@@ -24,6 +24,7 @@ Describe "Using Power Yaml to read a file" {
 }
 
 Describe "Using Power Yaml to convert integer scalars" {
+    if ($PSVersionTable.PSVersion -ge "3.0") { return }
 
     It "Obtains an int given an integer value" {
         $yaml = Get-Yaml -FromString "key: 5"
